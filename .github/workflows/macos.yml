@@ -9,6 +9,7 @@ jobs:
 
       - name: Run docker
         run: |
+          Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
           choco install docker-desktop
           choco install kind
           kind create cluster
