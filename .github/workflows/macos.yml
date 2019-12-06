@@ -1,0 +1,17 @@
+name: Go
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: [macOS-latest]
+    steps:
+
+      - name: Install docker
+        run: brew cask install docker
+
+      - name: Start Docker
+        run: open /Applications/Docker.app
+
+      - name: Hello world
+        run: docker run hello-world
