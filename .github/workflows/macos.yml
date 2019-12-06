@@ -4,11 +4,9 @@ jobs:
 
   build:
     name: Build
-    runs-on: [macOS-latest]
+    runs-on: [windows-latest]
     steps:
 
       - name: Run docker
         run: |
-          brew cask install docker
-          open --background -a Docker
-          /Applications/Docker.app/Contents/Resources/bin/docker run hello-world
+          choco install docker-desktop
