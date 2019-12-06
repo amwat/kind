@@ -10,4 +10,6 @@ jobs:
       - name: Run docker
         run: |
           choco install docker-desktop
-          docker run hello-world
+          choco install kind
+          kind create cluster
+
