@@ -7,11 +7,8 @@ jobs:
     runs-on: [macOS-latest]
     steps:
 
-      - name: Install docker
-        run: brew cask install docker
-
-      - name: Start Docker
-        run: open --background -a Docker
-
-      - name: Hello world
-        run: /usr/local/bin/docker run hello-world
+      - name: Run docker
+        run: |
+          brew cask install docker
+          open --background -a Docker
+          /Applications/Docker.app/Contents/Resources/bin/docker run hello-world
