@@ -14,4 +14,4 @@ jobs:
         run: open --background -a Docker
 
       - name: Hello world
-        run: docker run hello-world
+        run: /usr/local/bin/docker run hello-world
