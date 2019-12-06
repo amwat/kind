@@ -8,6 +8,7 @@ jobs:
     steps:
 
       - name: Run docker
+        shell: powershell
         run: |
           Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
           choco install docker-desktop
