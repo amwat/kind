@@ -11,7 +11,7 @@ jobs:
         run: brew cask install docker
 
       - name: Start Docker
-        run: open /Applications/Docker.app
+        run: open --background -a Docker
 
       - name: Hello world
         run: docker run hello-world
