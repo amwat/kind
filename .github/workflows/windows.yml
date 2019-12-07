@@ -8,6 +8,8 @@ jobs:
       - name: Install docker
         run: |
           choco install docker-desktop
+          Restart-Service com.docker.service;
+          Restart-Service Docker;
       - name: Switch to Linux Containers
         working-directory: C:\Program Files\Docker\Docker
         run: |
