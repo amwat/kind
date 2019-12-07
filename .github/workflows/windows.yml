@@ -7,13 +7,11 @@ jobs:
     steps:
       - name: Install docker
         run: |
-          choco install docker-desktop
-          Restart-Service com.docker.service;
-          Restart-Service Docker;
+          docker version
       - name: Switch to Linux Containers
         working-directory: C:\Program Files\Docker\Docker
         run: |
-         ./DockerCli.exe -SwitchLinuxEngine
+         ./DockerCli.exe -SwitchDaemon
       - name: Check docker
         run: |
           docker info
