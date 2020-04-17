@@ -26,6 +26,7 @@ import (
 	"sigs.k8s.io/kind/pkg/cmd"
 	"sigs.k8s.io/kind/pkg/log"
 
+	"sigs.k8s.io/kind/pkg/internal/cli"
 	"sigs.k8s.io/kind/pkg/internal/runtime"
 )
 
@@ -43,6 +44,9 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 		Short: "Prints cluster kubeconfig",
 		Long:  "Prints cluster kubeconfig",
 		RunE: func(cmd *cobra.Command, args []string) error {
+			if !cmd.Flags().Changed("name") {
+				cli.OverrideDefaultName(logger, &flags.Name)
+			}
 			return runE(logger, streams, flags)
 		},
 	}

@@ -30,6 +30,7 @@ import (
 	"sigs.k8s.io/kind/pkg/cmd"
 	"sigs.k8s.io/kind/pkg/log"
 
+	"sigs.k8s.io/kind/pkg/internal/cli"
 	"sigs.k8s.io/kind/pkg/internal/runtime"
 )
 
@@ -52,6 +53,9 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 		Short: "Loads docker image from archive into nodes",
 		Long:  "Loads docker image from archive into all or specified nodes by name",
 		RunE: func(cmd *cobra.Command, args []string) error {
+			if !cmd.Flags().Changed("name") {
+				cli.OverrideDefaultName(logger, &flags.Name)
+			}
 			return runE(logger, flags, args)
 		},
 	}
