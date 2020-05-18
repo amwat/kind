@@ -19,6 +19,7 @@ package docker
 import (
 	"strings"
 
+	"sigs.k8s.io/kind/pkg/errors"
 	"sigs.k8s.io/kind/pkg/exec"
 )
 
@@ -49,4 +50,20 @@ func mountDevMapper() bool {
 		storage = strings.ToLower(strings.TrimSpace(lines[0]))
 	}
 	return storage == "btrfs" || storage == "zfs"
+}
+
+// GetVersion returns the output of `docker --version`
+func GetVersion() (string, error) {
+	cmd := exec.Command("docker", "--version")
+	lines, err := exec.CombinedOutputLines(cmd)
+	if err != nil {
+		return "", err
+	}
+
+	// output is like `Docker version 19.03.8, build afacb8b`
+	if len(lines) != 1 {
+		return "", errors.Errorf("docker version should only be one line, got %d", len(lines))
+	}
+
+	return lines[0], nil
 }

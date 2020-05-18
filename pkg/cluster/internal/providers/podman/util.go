@@ -26,20 +26,30 @@ import (
 	"sigs.k8s.io/kind/pkg/exec"
 )
 
-func getPodmanVersion() (*version.Version, error) {
+// GetVersion returns the output of `podman --version`
+func GetVersion() (string, error) {
 	cmd := exec.Command("podman", "--version")
 	lines, err := exec.CombinedOutputLines(cmd)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	// output is like `podman version 1.7.1-dev`
 	if len(lines) != 1 {
-		return nil, errors.Errorf("podman version should only be one line, got %d", len(lines))
+		return "", errors.Errorf("podman version should only be one line, got %d", len(lines))
 	}
-	parts := strings.Split(lines[0], " ")
+
+	return lines[0], nil
+}
+
+func getVersionNumber() (*version.Version, error) {
+	line, err := GetVersion()
+	if err != nil {
+		return nil, err
+	}
+	parts := strings.Split(line, " ")
 	if len(parts) != 3 {
-		return nil, errors.Errorf("podman --version contents should have 3 parts, got %q", lines[0])
+		return nil, errors.Errorf("podman --version contents should have 3 parts, got %q", line)
 	}
 	return version.ParseSemantic(parts[2])
 }
@@ -50,7 +60,7 @@ const (
 
 func ensureMinVersion() error {
 	// ensure that podman version is a compatible version
-	v, err := getPodmanVersion()
+	v, err := getVersionNumber()
 	if err != nil {
 		return errors.Wrap(err, "failed to check podman version")
 	}
